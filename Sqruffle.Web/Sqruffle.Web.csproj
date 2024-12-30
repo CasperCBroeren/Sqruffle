@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>a3145bb7-c144-4f98-a4c8-5813b3e321e9</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.3.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sqruffle.Application\Sqruffle.Application.csproj" />
+    <ProjectReference Include="..\Sqruffle.Data\Sqruffle.Data.csproj" />
+    <ProjectReference Include="..\Sqruffle.Domain\Sqruffle.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>a3145bb7-c144-4f98-a4c8-5813b3e321e9</UserSecretsId> 
+  </PropertyGroup>
+ 
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.3.3" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.3" /> 
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sqruffle.Application\Sqruffle.Application.csproj" />
+    <ProjectReference Include="..\Sqruffle.Data\Sqruffle.Data.csproj" />
+    <ProjectReference Include="..\Sqruffle.Domain\Sqruffle.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
