@@ -1,9 +1,9 @@
 ﻿using MassTransit;
 using Sqruffle.Data;
-using Sqruffle.Domain.Product;
-using Sqruffle.Domain.Product.Events;
+using Sqruffle.Domain.Products;
+using Sqruffle.Domain.Products.Events;
 
-namespace Sqruffle.Application.CommandHandlers.Product
+namespace Sqruffle.Application.Products.CommandHandlers
 {
     public class AddProductConsumer : IConsumer<AddProductCommand>
     {
@@ -15,7 +15,7 @@ namespace Sqruffle.Application.CommandHandlers.Product
         }
         public async Task Consume(ConsumeContext<AddProductCommand> context)
         {
-            var entity = new Product() { Id = NewId.NextGuid(), Name = context.Message.Name, Aspects = [context.Message.Expires, context.Message.RegisterAt] };
+            var entity = new Product() { Id = NewId.NextGuid(), Name = context.Message.Name, Features = [context.Message.Expires, context.Message.RegisterAt] };
             await sqruffleDatabase.Products.AddAsync(entity);
             await sqruffleDatabase.SaveChangesAsync(context.CancellationToken);
 

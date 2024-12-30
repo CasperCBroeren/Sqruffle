@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sqruffle.Domain.Product;
-using Sqruffle.Domain.Product.Aspects;
+using Sqruffle.Domain.Products;
+using Sqruffle.Domain.Products.Features;
 
 namespace Sqruffle.Data
 {
@@ -21,8 +21,8 @@ namespace Sqruffle.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
-                .HasMany(p => p.Aspects)
-                .WithOne(c => c.Product)
+                .HasMany(p => p.Features)
+                .WithOne()
                 .HasForeignKey(c => c.ProductId);
              
             modelBuilder.Entity<AProductFeature>()

@@ -2,8 +2,9 @@ using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sqruffle.Data;
-using Sqruffle.Domain.Product;
-using Sqruffle.Domain.Product.Aspects;
+using Sqruffle.Domain.Products;
+using Sqruffle.Domain.Products.Features;
+using Sqruffle.Utilities;
 
 namespace Sqruffle.Web.Controllers
 {
@@ -28,7 +29,7 @@ namespace Sqruffle.Web.Controllers
             await bus.Publish(new AddProductCommand
             {
                 Name = name,
-                Expires = new Expires() { Date = timeProvider.GetUtcNow().AddYears(1) },
+                Expires = new Expires() { ExpiresAtUtc = timeProvider.GetUtcNow().AddYears(-1).DateTime.SetKindUtc() },
                 RegisterAt = new OwnershipRegistration() { RegisterAt = "EP" }
             });
         }
@@ -36,7 +37,9 @@ namespace Sqruffle.Web.Controllers
         [HttpGet(Name = "GetProducts")]
         public async Task<IEnumerable<Product>> Get()
         {
-            return await sqruffleDatabase.Products.ToListAsync();
+            var items = await sqruffleDatabase.Products.Include(x => x.Features).ToListAsync();
+
+            return items;
         }
     }
 }

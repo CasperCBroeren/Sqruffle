@@ -2,10 +2,11 @@ using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sqruffle.Application.CommandHandlers.Product;
-using Sqruffle.Application.EventListeners.Product;
-using Sqruffle.Data;
-using Sqruffle.Domain.Feature;
+using Sqruffle.Application;
+using Sqruffle.Application.Products.CommandHandlers;
+using Sqruffle.Application.Products.EventListeners;
+
+namespace Sqruffle.Service;
 
 public class Program
 {
@@ -20,33 +21,21 @@ public class Program
         cfg.AddUserSecrets<Program>())
             .ConfigureServices((hostContext, services) =>
             {
-                services.AddMassTransit(x =>
+                services.AddHostedService<BackgroundTimer>();
+                services.AddSqruffle(hostContext.Configuration, x =>
                 {
-                    // Register the consumer
                     x.AddConsumer<AddProductConsumer>();
                     x.AddConsumer<ProductCreatedListener>();
+                    x.AddConsumer<DailyCheckListener>();
 
-                    // Configure RabbitMQ
-                    x.UsingRabbitMq((context, cfg) =>
+                },
+                (rb, rbContext) =>
+                {
+                    rb.ReceiveEndpoint("ProductCreated_service_queue", e =>
                     {
-                        cfg.Host("localhost", "/", h =>
-                        {
-                            h.Username("guest");
-                            h.Password("guest");
-                        });
-
-                        cfg.ReceiveEndpoint("ProductCreated_service_queue", e =>
-                        {
-                            e.ConfigureConsumer<ProductCreatedListener>(context);
-                        });
-
-                        cfg.ConfigureEndpoints(context);
+                        e.ConfigureConsumer<ProductCreatedListener>(rbContext);
                     });
+                    rb.ConfigureEndpoints(rbContext);
                 });
-
-                services.AddTransient<IFeatureReactionFinder, FeatureReactionFinder>();
-                services.AddHttpClient();
-                services.AddLogging();
-                services.ConfigureDb(hostContext.Configuration);
             });
 }

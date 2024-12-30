@@ -14,7 +14,7 @@ namespace Sqruffle.Domain.Feature
         public List<IFeatureReaction<T, DomainModel>> FindImplementationsOfBehavior<T, DomainModel>()
         {
             var genericInterfaceType = typeof(IFeatureReaction<,>).MakeGenericType(typeof(T), typeof(DomainModel));
-            var assembly = Assembly.GetAssembly(typeof(T));
+            var assembly = Assembly.GetCallingAssembly();
             if (genericInterfaceType == null || assembly == null)
             {
                 return Array.Empty<IFeatureReaction<T, DomainModel>>().ToList();

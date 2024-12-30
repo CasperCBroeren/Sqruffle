@@ -6,22 +6,35 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sqruffle.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AspectIntroduction : Migration
+    public partial class FreshStart : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence(
-                name: "AProductAspectSequence");
+                name: "AProductFeatureSequence");
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Product_Expires",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"AProductAspectSequence\"')"),
+                    Id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"AProductFeatureSequence\"')"),
                     Type = table.Column<string>(type: "text", nullable: true),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ExpiredAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,7 +51,7 @@ namespace Sqruffle.Data.Migrations
                 name: "Product_OwnershipRegistration",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"AProductAspectSequence\"')"),
+                    Id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"AProductFeatureSequence\"')"),
                     Type = table.Column<string>(type: "text", nullable: true),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
                     RegisterAt = table.Column<string>(type: "text", nullable: true)
@@ -58,7 +71,7 @@ namespace Sqruffle.Data.Migrations
                 name: "Product_PeriodicYield",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"AProductAspectSequence\"')"),
+                    Id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"AProductFeatureSequence\"')"),
                     Type = table.Column<string>(type: "text", nullable: true),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
                     Interval = table.Column<TimeSpan>(type: "interval", nullable: false),
@@ -103,8 +116,11 @@ namespace Sqruffle.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Product_PeriodicYield");
 
+            migrationBuilder.DropTable(
+                name: "Products");
+
             migrationBuilder.DropSequence(
-                name: "AProductAspectSequence");
+                name: "AProductFeatureSequence");
         }
     }
 }

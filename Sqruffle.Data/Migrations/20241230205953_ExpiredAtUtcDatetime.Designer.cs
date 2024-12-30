@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sqruffle.Data;
@@ -11,9 +12,11 @@ using Sqruffle.Data;
 namespace Sqruffle.Data.Migrations
 {
     [DbContext(typeof(SqruffleDatabase))]
-    partial class SqruffleDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20241230205953_ExpiredAtUtcDatetime")]
+    partial class ExpiredAtUtcDatetime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,9 @@ namespace Sqruffle.Data.Migrations
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -97,11 +103,13 @@ namespace Sqruffle.Data.Migrations
 
             modelBuilder.Entity("Sqruffle.Domain.Products.AProductFeature", b =>
                 {
-                    b.HasOne("Sqruffle.Domain.Products.Product", null)
+                    b.HasOne("Sqruffle.Domain.Products.Product", "Product")
                         .WithMany("Features")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Sqruffle.Domain.Products.Product", b =>

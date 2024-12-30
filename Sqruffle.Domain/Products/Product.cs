@@ -1,4 +1,4 @@
-﻿namespace Sqruffle.Domain.Product
+﻿namespace Sqruffle.Domain.Products
 {
     public class Product
     {
@@ -6,7 +6,7 @@
 
         public string Name { get; set; }
 
-        public List<AProductFeature> Aspects { get; set; }
+        public List<AProductFeature> Features { get; set; }
 
     }
 }

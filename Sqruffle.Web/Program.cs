@@ -1,23 +1,21 @@
 using MassTransit;
-using Sqruffle.Data;
+using Sqruffle.Application;
 using Sqruffle.Web.EventListeners;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers(); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.ConfigureSqruffle(builder.Configuration,
+builder.Services.AddSqruffle(builder.Configuration,
     mt =>
     {
         mt.AddConsumer<WebProductCreatedListener>();
     },
-    rb =>
+    (rb, rbContext) =>
     {
         rb.ReceiveEndpoint("ProductCreated_Web_queue", e =>
         {
-            e.ConfigureConsumer<WebProductCreatedListener>(context);
+            e.ConfigureConsumer<WebProductCreatedListener>(rbContext);
         });
     });
 

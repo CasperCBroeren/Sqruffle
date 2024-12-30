@@ -1,7 +1,9 @@
-﻿namespace Sqruffle.Domain.Product.Aspects
+﻿namespace Sqruffle.Domain.Products.Features
 {
     public class Expires: AProductFeature
     { 
-        public DateTimeOffset Date { get; set; }
+        public DateTime ExpiresAtUtc { get; set; }
+
+        public DateTime? ExpiredAtUtc { get; set; }
     }
 }

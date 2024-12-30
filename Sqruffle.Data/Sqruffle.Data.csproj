@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Sqruffle.Domain\Sqruffle.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Sqruffle.Domain.Feature
+﻿namespace Sqruffle.Domain.Feature
 {
     public interface IFeatureReactionFinder
     {

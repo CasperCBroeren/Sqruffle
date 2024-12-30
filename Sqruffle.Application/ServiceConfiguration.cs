@@ -2,13 +2,17 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sqruffle.Data;
+using Sqruffle.Domain.Feature;
 
 namespace Sqruffle.Application
 {
     public static class ServiceConfiguration
     {
-        public static void ConfigureSqruffle(this IServiceCollection services, IConfiguration configuration, Action<IBusRegistrationConfigurator> busConfiguration, Action<IRabbitMqBusFactoryConfigurator> rabbitMqbusFactory)
-        {
+        public static void AddSqruffle(this IServiceCollection services, IConfiguration configuration, Action<IBusRegistrationConfigurator> busConfiguration, Action<IRabbitMqBusFactoryConfigurator, IBusRegistrationContext> rabbitMqbusFactory)
+        { 
+            services.AddHttpClient();
+            services.AddLogging();
+            services.AddTransient<IFeatureReactionFinder, FeatureReactionFinder>();
             services.AddMassTransit(x =>
             {
                 // Configure RabbitMQ
@@ -20,7 +24,7 @@ namespace Sqruffle.Application
                         h.Password("guest");
                     });
                    
-                    rabbitMqbusFactory(cfg);
+                    rabbitMqbusFactory(cfg, context);
 
                 });
             
@@ -28,6 +32,6 @@ namespace Sqruffle.Application
             });
             services.ConfigureDb(configuration);
             services.AddSingleton(TimeProvider.System);
-        }
+        }  
     }
 }

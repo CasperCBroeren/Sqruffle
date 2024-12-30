@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Sqruffle.Data;
 using Sqruffle.Domain.Feature;
-using Sqruffle.Domain.Product;
-using Sqruffle.Domain.Product.Events;
+using Sqruffle.Domain.Products;
+using Sqruffle.Domain.Products.Events;
 
-namespace Sqruffle.Application.EventListeners.Product
+namespace Sqruffle.Application.Products.EventListeners
 {
     public class ProductCreatedListener : IConsumer<ProductCreatedEvent>
     {
@@ -21,7 +21,7 @@ namespace Sqruffle.Application.EventListeners.Product
         {
             var behavior = behaviorFinder.FindImplementationsOfBehavior<ProductCreatedEvent, Product>();
             var product = sqruffleDatabase.Products
-                                    .Include(p => p.Aspects)
+                                    .Include(p => p.Features)
                                     .First(p => p.Id == context.Message.ProductId);
 
             foreach (var type in behavior.OrderBy(x => x.Priority))

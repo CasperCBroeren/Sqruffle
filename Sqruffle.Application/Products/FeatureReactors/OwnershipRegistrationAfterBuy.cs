@@ -1,18 +1,17 @@
 ﻿using MassTransit;
 using Sqruffle.Domain.Feature;
-using Sqruffle.Domain.Product.Events;
+using Sqruffle.Domain.Products;
+using Sqruffle.Domain.Products.Events;
 
-namespace Sqruffle.Domain.Product.Features
+namespace Sqruffle.Application.Products.FeatureReactors
 {
     public class OwnershipRegistrationAfterBuy : IFeatureReaction<ProductCreatedEvent, Product>
     {
         private readonly HttpClient httpClient;
-        private readonly IBus bus;
 
-        public OwnershipRegistrationAfterBuy(HttpClient httpClient, IBus bus)
+        public OwnershipRegistrationAfterBuy(HttpClient httpClient)
         {
             this.httpClient = httpClient;
-            this.bus = bus;
         }
         public int Priority => 1;
 

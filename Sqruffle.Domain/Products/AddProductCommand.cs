@@ -1,6 +1,6 @@
-﻿using Sqruffle.Domain.Product.Aspects;
+﻿using Sqruffle.Domain.Products.Features;
 
-namespace Sqruffle.Domain.Product
+namespace Sqruffle.Domain.Products
 {
     public class AddProductCommand
     {

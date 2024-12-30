@@ -12,8 +12,8 @@ using Sqruffle.Data;
 namespace Sqruffle.Data.Migrations
 {
     [DbContext(typeof(SqruffleDatabase))]
-    [Migration("20241223103103_AspectIntroduction")]
-    partial class AspectIntroduction
+    [Migration("20241230202516_FreshStart")]
+    partial class FreshStart
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,14 +25,14 @@ namespace Sqruffle.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.HasSequence("AProductAspectSequence");
+            modelBuilder.HasSequence("AProductFeatureSequence");
 
-            modelBuilder.Entity("Sqruffle.Domain.Product.AProductAspect", b =>
+            modelBuilder.Entity("Sqruffle.Domain.Products.AProductFeature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValueSql("nextval('\"AProductAspectSequence\"')");
+                        .HasDefaultValueSql("nextval('\"AProductFeatureSequence\"')");
 
                     NpgsqlPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
 
@@ -51,7 +51,7 @@ namespace Sqruffle.Data.Migrations
                     b.UseTpcMappingStrategy();
                 });
 
-            modelBuilder.Entity("Sqruffle.Domain.Product.Product", b =>
+            modelBuilder.Entity("Sqruffle.Domain.Products.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,19 +65,22 @@ namespace Sqruffle.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Sqruffle.Domain.Product.Aspects.Expires", b =>
+            modelBuilder.Entity("Sqruffle.Domain.Products.Features.Expires", b =>
                 {
-                    b.HasBaseType("Sqruffle.Domain.Product.AProductAspect");
+                    b.HasBaseType("Sqruffle.Domain.Products.AProductFeature");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("ExpiredAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.ToTable("Product_Expires", (string)null);
                 });
 
-            modelBuilder.Entity("Sqruffle.Domain.Product.Aspects.OwnershipRegistration", b =>
+            modelBuilder.Entity("Sqruffle.Domain.Products.Features.OwnershipRegistration", b =>
                 {
-                    b.HasBaseType("Sqruffle.Domain.Product.AProductAspect");
+                    b.HasBaseType("Sqruffle.Domain.Products.AProductFeature");
 
                     b.Property<string>("RegisterAt")
                         .HasColumnType("text");
@@ -85,9 +88,9 @@ namespace Sqruffle.Data.Migrations
                     b.ToTable("Product_OwnershipRegistration", (string)null);
                 });
 
-            modelBuilder.Entity("Sqruffle.Domain.Product.Aspects.PeriodicYield", b =>
+            modelBuilder.Entity("Sqruffle.Domain.Products.Features.PeriodicYield", b =>
                 {
-                    b.HasBaseType("Sqruffle.Domain.Product.AProductAspect");
+                    b.HasBaseType("Sqruffle.Domain.Products.AProductFeature");
 
                     b.Property<decimal>("Increase")
                         .HasColumnType("numeric");
@@ -98,10 +101,10 @@ namespace Sqruffle.Data.Migrations
                     b.ToTable("Product_PeriodicYield", (string)null);
                 });
 
-            modelBuilder.Entity("Sqruffle.Domain.Product.AProductAspect", b =>
+            modelBuilder.Entity("Sqruffle.Domain.Products.AProductFeature", b =>
                 {
-                    b.HasOne("Sqruffle.Domain.Product.Product", "Product")
-                        .WithMany("Aspects")
+                    b.HasOne("Sqruffle.Domain.Products.Product", "Product")
+                        .WithMany("Features")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -109,9 +112,9 @@ namespace Sqruffle.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Sqruffle.Domain.Product.Product", b =>
+            modelBuilder.Entity("Sqruffle.Domain.Products.Product", b =>
                 {
-                    b.Navigation("Aspects");
+                    b.Navigation("Features");
                 });
 #pragma warning restore 612, 618
         }

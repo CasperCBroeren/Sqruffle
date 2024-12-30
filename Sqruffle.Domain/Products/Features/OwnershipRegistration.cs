@@ -1,4 +1,4 @@
-﻿namespace Sqruffle.Domain.Product.Aspects
+﻿namespace Sqruffle.Domain.Products.Features
 {
     public class OwnershipRegistration : AProductFeature
     {

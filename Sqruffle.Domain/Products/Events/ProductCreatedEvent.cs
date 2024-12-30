@@ -1,4 +1,4 @@
-﻿namespace Sqruffle.Domain.Product.Events
+﻿namespace Sqruffle.Domain.Products.Events
 {
     public record ProductCreatedEvent(Guid ProductId);
 }

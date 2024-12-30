@@ -1,4 +1,4 @@
-﻿namespace Sqruffle.Service.Product.Events
+﻿namespace Sqruffle.Service.Products.Events
 {
     public class OwnershipRegistered
     {

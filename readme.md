@@ -17,6 +17,7 @@ Outer layer
 - Web = Accessible part of the application through the web
 - Service = Processor of commands, events and features
 
+!! all code is also seperated in slices/subjects/features so if we're doing products. All data related to products is put in this folder/namespace
 
 
 ## Feature 

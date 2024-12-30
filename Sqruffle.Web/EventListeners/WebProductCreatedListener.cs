@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using Sqruffle.Domain.Product.Events;
+using Sqruffle.Domain.Products.Events;
 
 namespace Sqruffle.Web.EventListeners
 {
