@@ -8,7 +8,7 @@ namespace Sqruffle.Application.Products.EventListeners
     {
         private readonly IFeatureReactionFinder featureReactionFinder; 
 
-        public DailyCheckListener(IFeatureReactionFinder featureReactionFinder, TimeProvider timeProvider)
+        public DailyCheckListener(IFeatureReactionFinder featureReactionFinder)
         {
             this.featureReactionFinder = featureReactionFinder; 
         }

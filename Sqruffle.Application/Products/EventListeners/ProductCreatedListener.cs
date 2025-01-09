@@ -1,10 +1,6 @@
 ﻿using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using Sqruffle.Data;
-using Sqruffle.Domain.Feature;
-using Sqruffle.Domain.Products;
 using Sqruffle.Domain.Products.Events;
-using Sqruffle.Domain.Products.Features;
+using Sqruffle.Domain.Feature;
 
 namespace Sqruffle.Application.Products.EventListeners
 {
@@ -12,7 +8,7 @@ namespace Sqruffle.Application.Products.EventListeners
     { 
         private readonly IFeatureReactionFinder featureReactionFinder;
 
-        public ProductCreatedListener(SqruffleDatabase sqruffleDatabase, IFeatureReactionFinder featureReactionFinder)
+        public ProductCreatedListener(IFeatureReactionFinder featureReactionFinder)
         { 
             this.featureReactionFinder = featureReactionFinder;
         }
