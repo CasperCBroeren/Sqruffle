@@ -1,14 +1,14 @@
 ﻿using MassTransit;
 using Sqruffle.Domain.Feature;
 
-namespace Sqruffle.Application.Products.EventListeners
+namespace Sqruffle.Utilities.Analyzer
 {
     public abstract class AConsumerEventListener<TEvent> : IConsumer<TEvent> where TEvent : class
-    { 
+    {
         private readonly IFeatureReactionFinder featureReactionFinder;
 
         public AConsumerEventListener(IFeatureReactionFinder featureReactionFinder)
-        { 
+        {
             this.featureReactionFinder = featureReactionFinder;
         }
         public async Task Consume(ConsumeContext<TEvent> context)

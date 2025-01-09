@@ -6,7 +6,7 @@ using Sqruffle.Domain.Products.Features;
 
 namespace Sqruffle.Application.Products.FeatureReactors
 {
-    public class PeriodicYieldCheckDaily : IEventReactors<DailyCheckEvent>
+    public class PeriodicYieldCheckDaily : IEventReactor<DailyCheckEvent>
     {
         private readonly SqruffleDatabase sqruffleDatabase;
 

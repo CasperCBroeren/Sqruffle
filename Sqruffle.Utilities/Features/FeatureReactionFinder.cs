@@ -11,13 +11,13 @@ namespace Sqruffle.Domain.Feature
         {
             this.serviceProvider = serviceProvider;
         }
-        public List<IEventReactors<TEvent>> FindAllFeatureReactorsToEvent<TEvent>()
+        public List<IEventReactor<TEvent>> FindAllFeatureReactorsToEvent<TEvent>()
         {
-            var genericInterfaceType = typeof(IEventReactors<>).MakeGenericType(typeof(TEvent));
+            var genericInterfaceType = typeof(IEventReactor<>).MakeGenericType(typeof(TEvent));
             var assembly = Assembly.GetCallingAssembly();
             if (genericInterfaceType == null || assembly == null)
             {
-                return Array.Empty<IEventReactors<TEvent>>().ToList();
+                return Array.Empty<IEventReactor<TEvent>>().ToList();
             }
             
             var implementations = assembly.GetTypes()
@@ -28,7 +28,7 @@ namespace Sqruffle.Domain.Feature
                 .ToList();
 
             return implementations
-                .Select(type => (IEventReactors<TEvent>)ActivatorUtilities.CreateInstance(serviceProvider, type))
+                .Select(type => (IEventReactor<TEvent>)ActivatorUtilities.CreateInstance(serviceProvider, type))
                 .ToList();
         }
     }

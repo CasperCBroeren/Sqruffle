@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sqruffle.Application;
 using Sqruffle.Application.Products.CommandHandlers;
-using Sqruffle.Application.Products.EventListeners;
 
 namespace Sqruffle.Service;
 
@@ -25,15 +24,15 @@ public class Program
                 services.AddSqruffle(hostContext.Configuration, x =>
                 {
                     x.AddConsumer<AddProductConsumer>();
-                    x.AddConsumer<ProductCreatedConsumerEventListener>();
-                    x.AddConsumer<DailyCheckConsumerEventListener>();
+                    x.AddConsumer<ProductCreatedEventConsumerListener>();
+                    x.AddConsumer<DailyCheckEventConsumerListener>();
 
                 },
                 (rb, rbContext) =>
                 {
                     rb.ReceiveEndpoint("ProductCreated_service_queue", e =>
                     {
-                        e.ConfigureConsumer<ProductCreatedConsumerEventListener>(rbContext);
+                        e.ConfigureConsumer<ProductCreatedEventConsumerListener>(rbContext);
                     });
                     rb.ConfigureEndpoints(rbContext);
                 });

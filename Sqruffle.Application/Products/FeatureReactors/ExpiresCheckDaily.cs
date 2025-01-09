@@ -6,7 +6,7 @@ using Sqruffle.Domain.Products.Features;
 
 namespace Sqruffle.Application.Products.FeatureReactors
 {
-    public class ExpiresCheckDaily : IEventReactors<DailyCheckEvent>
+    public class ExpiresCheckDaily : IEventReactor<DailyCheckEvent>
     {
         private readonly SqruffleDatabase sqruffleDatabase;
 

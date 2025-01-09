@@ -15,7 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Sqruffle.Data\Sqruffle.Data.csproj" />
     <ProjectReference Include="..\Sqruffle.Domain\Sqruffle.Domain.csproj" />
-    <ProjectReference Include="..\Sqruffle.Utilities\Sqruffle.Utilities.csproj" />
+    <ProjectReference Include="..\Sqruffle.Utilities\Sqruffle.Utilities.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
 
 </Project>

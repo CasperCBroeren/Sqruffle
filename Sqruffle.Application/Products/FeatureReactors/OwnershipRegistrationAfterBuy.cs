@@ -6,7 +6,7 @@ using Sqruffle.Domain.Products.Features;
 
 namespace Sqruffle.Application.Products.FeatureReactors
 {
-    public class OwnershipRegistrationAfterBuy : IEventReactors<ProductCreatedEvent>
+    public class OwnershipRegistrationAfterBuy : IEventReactor<ProductCreatedEvent>
     {
         private readonly SqruffleDatabase sqruffleDatabase;
         private readonly HttpClient httpClient;
