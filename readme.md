@@ -29,4 +29,5 @@ We want to limit the amount of optional fields in db and have composable solutio
 For instance if we want to create a product with a expiration we can just add only that *feature*. If we want to add a product with PeriodiYield and expiration we can just add those *features*  all products are evenly possible and valid.
 If one of the products are in need of a new *feature* during their existince it can be applied and adjusted. This mitigates problems with clasical inheritance product solutions.
 
-With FeatureReactors we can react accordingly to event and match products with that feature
+With FeatureReactors we can react accordingly to event and match products with that feature. One design flaw is the not-so thight coupling between events and features. Also the AConsumerEventListener and its implementations should be better of with  maybe
+some code analyzer and fixer. This would be something as, if an event is referenced in a FeatureReactor, the ConsumerEventListener is created for that event

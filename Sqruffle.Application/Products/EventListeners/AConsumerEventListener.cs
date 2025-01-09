@@ -1,20 +1,19 @@
 ﻿using MassTransit;
-using Sqruffle.Domain.Products.Events;
 using Sqruffle.Domain.Feature;
 
 namespace Sqruffle.Application.Products.EventListeners
 {
-    public class ProductCreatedListener : IConsumer<ProductCreatedEvent>
+    public abstract class AConsumerEventListener<TEvent> : IConsumer<TEvent> where TEvent : class
     { 
         private readonly IFeatureReactionFinder featureReactionFinder;
 
-        public ProductCreatedListener(IFeatureReactionFinder featureReactionFinder)
+        public AConsumerEventListener(IFeatureReactionFinder featureReactionFinder)
         { 
             this.featureReactionFinder = featureReactionFinder;
         }
-        public async Task Consume(ConsumeContext<ProductCreatedEvent> context)
+        public async Task Consume(ConsumeContext<TEvent> context)
         {
-            var featureReactors = featureReactionFinder.FindAllFeatureReactorsToEvent<ProductCreatedEvent>();
+            var featureReactors = featureReactionFinder.FindAllFeatureReactorsToEvent<TEvent>();
 
             foreach (var type in featureReactors.OrderBy(x => x.Priority))
             {

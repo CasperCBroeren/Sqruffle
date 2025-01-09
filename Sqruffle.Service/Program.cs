@@ -25,15 +25,15 @@ public class Program
                 services.AddSqruffle(hostContext.Configuration, x =>
                 {
                     x.AddConsumer<AddProductConsumer>();
-                    x.AddConsumer<ProductCreatedListener>();
-                    x.AddConsumer<DailyCheckListener>();
+                    x.AddConsumer<ProductCreatedConsumerEventListener>();
+                    x.AddConsumer<DailyCheckConsumerEventListener>();
 
                 },
                 (rb, rbContext) =>
                 {
                     rb.ReceiveEndpoint("ProductCreated_service_queue", e =>
                     {
-                        e.ConfigureConsumer<ProductCreatedListener>(rbContext);
+                        e.ConfigureConsumer<ProductCreatedConsumerEventListener>(rbContext);
                     });
                     rb.ConfigureEndpoints(rbContext);
                 });
