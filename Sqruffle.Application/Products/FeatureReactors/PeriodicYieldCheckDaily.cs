@@ -6,7 +6,7 @@ using Sqruffle.Domain.Products.Features;
 
 namespace Sqruffle.Application.Products.FeatureReactors
 {
-    public class PeriodicYieldCheckDaily : IFeatureReaction<DailyCheckEvent, DateTimeOffset>
+    public class PeriodicYieldCheckDaily : IEventReactors<DailyCheckEvent>
     {
         private readonly SqruffleDatabase sqruffleDatabase;
 
@@ -16,7 +16,7 @@ namespace Sqruffle.Application.Products.FeatureReactors
         }
         public int Priority => 2;
 
-        public async Task OnEvent(DateTimeOffset item)
+        public async Task OnEvent(DailyCheckEvent item)
         {
             var productsToApplyYield = await sqruffleDatabase.Products
                          .Where(p => p.Features.OfType<PeriodicYield>().Any())

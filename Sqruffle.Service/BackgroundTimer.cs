@@ -15,7 +15,7 @@ namespace Sqruffle.Service
         { 
             while (!stoppingToken.IsCancellationRequested)
             {
-                await bus.Publish(new DailyCheckEvent());
+                await bus.Publish(new DailyCheckEvent() {  CurrentTimeUtc = DateTime.UtcNow });
                 await Task.Delay(5000, stoppingToken); // Runs every 5 seconds
             }
         }

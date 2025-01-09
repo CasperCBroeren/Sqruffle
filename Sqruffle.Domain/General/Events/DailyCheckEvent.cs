@@ -2,5 +2,6 @@
 {
     public class DailyCheckEvent
     {
+        public DateTime CurrentTimeUtc { get; set; }
     }
 }

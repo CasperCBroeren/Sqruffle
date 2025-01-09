@@ -2,6 +2,6 @@
 {
     public interface IFeatureReactionFinder
     {
-        List<IFeatureReaction<T, DomainModel>> FindAllFeatureReactorsToEvent<T, DomainModel>();
+        List<IEventReactors<TEvent>> FindAllFeatureReactorsToEvent<TEvent>();
     }
 }

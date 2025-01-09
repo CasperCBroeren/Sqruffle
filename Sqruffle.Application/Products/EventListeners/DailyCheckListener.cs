@@ -6,21 +6,19 @@ namespace Sqruffle.Application.Products.EventListeners
 {
     public class DailyCheckListener : IConsumer<DailyCheckEvent>
     {
-        private readonly IFeatureReactionFinder behaviorFinder;
-        private readonly TimeProvider timeProvider;
+        private readonly IFeatureReactionFinder featureReactionFinder; 
 
-        public DailyCheckListener(IFeatureReactionFinder behaviorFinder, TimeProvider timeProvider)
+        public DailyCheckListener(IFeatureReactionFinder featureReactionFinder, TimeProvider timeProvider)
         {
-            this.behaviorFinder = behaviorFinder;
-            this.timeProvider = timeProvider;
+            this.featureReactionFinder = featureReactionFinder; 
         }
         public async Task Consume(ConsumeContext<DailyCheckEvent> context)
         {
-            var behavior = behaviorFinder.FindAllFeatureReactorsToEvent<DailyCheckEvent, DateTimeOffset>();
+            var featureReactors = featureReactionFinder.FindAllFeatureReactorsToEvent<DailyCheckEvent>();
  
-            foreach (var type in behavior.OrderBy(x => x.Priority))
+            foreach (var type in featureReactors.OrderBy(x => x.Priority))
             {
-                await type.OnEvent(timeProvider.GetUtcNow());
+                await type.OnEvent(context.Message);
             }
         }
     }

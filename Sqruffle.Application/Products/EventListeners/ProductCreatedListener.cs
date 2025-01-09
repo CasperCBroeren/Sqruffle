@@ -9,26 +9,20 @@ using Sqruffle.Domain.Products.Features;
 namespace Sqruffle.Application.Products.EventListeners
 {
     public class ProductCreatedListener : IConsumer<ProductCreatedEvent>
-    {
-        private readonly SqruffleDatabase sqruffleDatabase;
-        private readonly IFeatureReactionFinder behaviorFinder;
+    { 
+        private readonly IFeatureReactionFinder featureReactionFinder;
 
-        public ProductCreatedListener(SqruffleDatabase sqruffleDatabase, IFeatureReactionFinder behaviorFinder)
-        {
-            this.sqruffleDatabase = sqruffleDatabase;
-            this.behaviorFinder = behaviorFinder;
+        public ProductCreatedListener(SqruffleDatabase sqruffleDatabase, IFeatureReactionFinder featureReactionFinder)
+        { 
+            this.featureReactionFinder = featureReactionFinder;
         }
         public async Task Consume(ConsumeContext<ProductCreatedEvent> context)
         {
-            var behavior = behaviorFinder.FindAllFeatureReactorsToEvent<ProductCreatedEvent, Product>();
-            var product = sqruffleDatabase.Products
-                                    .Include(p => p.Features)
-                                    .Where(p => p.Features.OfType<OwnershipRegistration>().Any())
-                                    .First(p => p.Id == context.Message.ProductId);
+            var featureReactors = featureReactionFinder.FindAllFeatureReactorsToEvent<ProductCreatedEvent>();
 
-            foreach (var type in behavior.OrderBy(x => x.Priority))
+            foreach (var type in featureReactors.OrderBy(x => x.Priority))
             {
-                await type.OnEvent(product);
+                await type.OnEvent(context.Message);
             }
         }
     }

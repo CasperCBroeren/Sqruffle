@@ -1,6 +1,6 @@
 ﻿namespace Sqruffle.Domain.Feature
 {
-    public interface IFeatureReaction<Aspect, DomainObject>
+    public interface IFeatureReactionToEvent<TFeature, TEvent, DomainObject>
     {
         public int Priority { get; }
         Task OnEvent(DomainObject item);

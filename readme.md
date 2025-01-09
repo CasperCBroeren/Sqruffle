@@ -23,8 +23,10 @@ Outer layer
 
 ## Feature 
 A product is a flexibel structure of not nullable properties which can be enriched with *features*. An *feature* is a set of data to which *reactions* can be run against.
-Since in a lot of domains prodcuts are never fixed but are highly flexible to the business needs, we need to be adoptable to cater to this.
+Since in a lot of domains products are never fixed but are highly flexible to the business needs, we need to be adoptable to cater to this.
 We want to limit the amount of optional fields in db and have composable solution. 
 
 For instance if we want to create a product with a expiration we can just add only that *feature*. If we want to add a product with PeriodiYield and expiration we can just add those *features*  all products are evenly possible and valid.
-If one of the products are in need of a new *feature* during their existince it can be applied and adjusted. This mitigates problems with clasical inheritance product solutions
+If one of the products are in need of a new *feature* during their existince it can be applied and adjusted. This mitigates problems with clasical inheritance product solutions.
+
+With FeatureReactors we can react accordingly to event and match products with that feature
