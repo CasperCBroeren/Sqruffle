@@ -11,7 +11,7 @@ namespace Sqruffle.Domain.Feature
         {
             this.serviceProvider = serviceProvider;
         }
-        public List<IFeatureReaction<T, DomainModel>> FindImplementationsOfBehavior<T, DomainModel>()
+        public List<IFeatureReaction<T, DomainModel>> FindAllFeatureReactorsToEvent<T, DomainModel>()
         {
             var genericInterfaceType = typeof(IFeatureReaction<,>).MakeGenericType(typeof(T), typeof(DomainModel));
             var assembly = Assembly.GetCallingAssembly();

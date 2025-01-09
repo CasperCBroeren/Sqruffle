@@ -2,6 +2,6 @@
 {
     public interface IFeatureReactionFinder
     {
-        List<IFeatureReaction<T, DomainModel>> FindImplementationsOfBehavior<T, DomainModel>();
+        List<IFeatureReaction<T, DomainModel>> FindAllFeatureReactorsToEvent<T, DomainModel>();
     }
 }

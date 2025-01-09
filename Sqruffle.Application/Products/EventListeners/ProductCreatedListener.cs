@@ -4,6 +4,7 @@ using Sqruffle.Data;
 using Sqruffle.Domain.Feature;
 using Sqruffle.Domain.Products;
 using Sqruffle.Domain.Products.Events;
+using Sqruffle.Domain.Products.Features;
 
 namespace Sqruffle.Application.Products.EventListeners
 {
@@ -19,9 +20,10 @@ namespace Sqruffle.Application.Products.EventListeners
         }
         public async Task Consume(ConsumeContext<ProductCreatedEvent> context)
         {
-            var behavior = behaviorFinder.FindImplementationsOfBehavior<ProductCreatedEvent, Product>();
+            var behavior = behaviorFinder.FindAllFeatureReactorsToEvent<ProductCreatedEvent, Product>();
             var product = sqruffleDatabase.Products
                                     .Include(p => p.Features)
+                                    .Where(p => p.Features.OfType<OwnershipRegistration>().Any())
                                     .First(p => p.Id == context.Message.ProductId);
 
             foreach (var type in behavior.OrderBy(x => x.Priority))

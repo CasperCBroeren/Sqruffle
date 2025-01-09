@@ -2,8 +2,9 @@
 This project is a test area for working in an event based enterprise environment. Below are design choices 
 
 
-## No Object orientation
-One should avoid Object Orientation as much as possible. Composition over inherintance
+## No Object orientation in domain
+One should avoid Object Orientation as much as possible. Composition over inherintance.
+Separate data from behavoir. Behavior is structured in consumers, listeners and reactors
 
 ## Structure
 Onion, N-tier, clean are all hard to grasp and multi interpertable terms. Best is to define your own and explain instead of asume
