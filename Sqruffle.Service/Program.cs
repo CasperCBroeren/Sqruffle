@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sqruffle.Application;
 using Sqruffle.Application.Products.CommandHandlers;
+using System.Reflection;
 
 namespace Sqruffle.Service;
 
@@ -25,8 +26,7 @@ public class Program
                 {
                     x.AddConsumer<AddProductConsumer>();
                     x.AddConsumer<ProductCreatedEventConsumerListener>();
-                    x.AddConsumer<DailyCheckEventConsumerListener>();
-
+                    x.AddConsumer<DailyCheckEventConsumerListener>(); 
                 },
                 (rb, rbContext) =>
                 {

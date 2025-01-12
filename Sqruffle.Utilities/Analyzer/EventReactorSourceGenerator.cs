@@ -7,7 +7,7 @@ using System.Text;
 public class EventReactorSourceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
-    {         
+    {
         // Define a syntax provider to find classes implementing IEventReactor<T>
         var allClassesImplementing = context.SyntaxProvider
             .CreateSyntaxProvider(
@@ -19,22 +19,21 @@ public class EventReactorSourceGenerator : IIncrementalGenerator
         var distinctClasses = allClassesImplementing
             .Collect()
             .Select(static (items, _) => items.Distinct());
-        var generated = new List<string>();
+
         // Register the generation logic
         context.RegisterSourceOutput(distinctClasses, (context, classes) =>
         {
-            foreach (var x in classes)
+            var uniqueClasses = classes
+                .GroupBy(c => c.Value.GenericTypeName)
+                .Select(g => g.First());
+            foreach (var x in uniqueClasses)
             {
                 if (x.HasValue && x.Value.GenericTypeName != null)
                 {
                     var genericTypeName = x.Value.GenericTypeName;
                     var generatedClassName = $"{genericTypeName}ConsumerListener";
                     var source = GenerateConsumerListenerClass(genericTypeName, generatedClassName);
-                    if (!generated.Contains(generatedClassName))
-                    {
-                        context.AddSource($"{generatedClassName}.g.cs", SourceText.From(source, Encoding.UTF8));
-                        generated.Add(generatedClassName);
-                    }
+                    context.AddSource($"{generatedClassName}.g.cs", SourceText.From(source, Encoding.UTF8));
                 }
             }
         });
@@ -61,11 +60,12 @@ public class EventReactorSourceGenerator : IIncrementalGenerator
         }
 
         return null;
-    } 
+    }
 
     private static string GenerateConsumerListenerClass(string eventName, string className)
     {
         return $@" 
+using System.Reflection;
 using Sqruffle.Utilities.Analyzer;
 using Sqruffle.Domain.Feature;
 using Sqruffle.Domain.Products.Events;
@@ -75,6 +75,7 @@ public class {className} : AConsumerEventListener<{eventName}>
 {{
     public {className}(IFeatureReactionFinder featureReactionFinder) : base(featureReactionFinder)
     {{
+        this.assembly = Assembly.GetExecutingAssembly();
     }}
 }}
 ";

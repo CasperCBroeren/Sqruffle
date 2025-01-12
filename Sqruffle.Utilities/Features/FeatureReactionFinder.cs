@@ -11,10 +11,9 @@ namespace Sqruffle.Domain.Feature
         {
             this.serviceProvider = serviceProvider;
         }
-        public List<IEventReactor<TEvent>> FindAllFeatureReactorsToEvent<TEvent>()
+        public List<IEventReactor<TEvent>> FindAllFeatureReactorsToEvent<TEvent>(Assembly assembly)
         {
-            var genericInterfaceType = typeof(IEventReactor<>).MakeGenericType(typeof(TEvent));
-            var assembly = Assembly.GetCallingAssembly();
+            var genericInterfaceType = typeof(IEventReactor<>).MakeGenericType(typeof(TEvent));            
             if (genericInterfaceType == null || assembly == null)
             {
                 return Array.Empty<IEventReactor<TEvent>>().ToList();
