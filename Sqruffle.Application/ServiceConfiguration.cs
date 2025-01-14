@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sqruffle.Data;
 using Sqruffle.Domain.Feature;
+using Sqruffle.Utilities.Configuration;
 
 namespace Sqruffle.Application
 {
@@ -14,14 +15,15 @@ namespace Sqruffle.Application
             services.AddLogging();
             services.AddTransient<IFeatureReactionFinder, FeatureReactionFinder>();
             services.AddMassTransit(x =>
-            {
-                // Configure RabbitMQ
+            {                
+                var sqruffleConfiguration = configuration.GetSection(nameof(SqruffleConfiguration)).Get<SqruffleConfiguration>();
+               
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host("localhost", "/", h =>
+                    cfg.Host(sqruffleConfiguration!.Host, "/", h =>
                     {
-                        h.Username("guest");
-                        h.Password("guest");
+                        h.Username(sqruffleConfiguration!.UserName);
+                        h.Password(sqruffleConfiguration!.Password);
                     });
                    
                     rabbitMqbusFactory(cfg, context);
